@@ -1,0 +1,14 @@
+<md-toolbar class="md-hue-3">
+  <div class="md-toolbar-tools" layout="row">
+    <span flex>
+      <p>Pras & Aryo Gema, Andi Fahmi &copy; 2017</p>
+    </span>
+
+    <span ng-if="!currentUser">
+      <md-button class="md-icon-button" ui-sref="auth.signin">
+        <md-icon md-svg-icon="login-variant"></md-icon>
+        <md-tooltip>SIGN IN</md-tooltip>
+      </md-button>
+    </span>
+  </div>
+</md-toolbar>

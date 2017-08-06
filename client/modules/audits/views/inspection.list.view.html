@@ -1,0 +1,75 @@
+<section ng-init="find(); findOne()" layout="row" flex>
+  <div flex=15 ng-include="'/client/modules/audits/views/_filter.partial.html'">
+  </div>
+    <md-card flex ng-if="permissionP">
+      <md-table-container flex>
+        <table md-table>
+          <thead md-head>
+            <tr md-row>
+              <th md-column>Date</th>
+              <th md-column>Inspected</th>
+              <th md-column>Location</th>
+              <th md-column ng-if="!display.id">Findings</th>
+              <th md-column>Status</th>
+
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row ng-if="audits.length==0">
+              <td md-cell style="text-align:center;" colspan="5">No Inspection List</td>
+            </tr>
+            <tr md-row ng-repeat="aud in audits | orderBy:'slated'">
+
+              <td md-cell>{{ aud.slated | date}}</td>
+              <td md-cell>{{ aud.inspected }}</td>
+              <td md-cell>{{ aud.location }}</td>
+              <td md-cell ng-if="!display.id"><p ng-repeat="finding in aud.findings">{{ finding }}<p></td>
+                <td md-cell ng-switch="aud.status">
+                  <p ng-switch-when="c" ng-style="{color: 'green'}">{{'Clear'}}</p>
+                  <p ng-switch-when="n" ng-style="{color: 'red'}">{{'Not Clear'}}</p>
+                </td>
+              <td md-cell ng-if="!display.id">
+                <div>
+                  <md-button class="md-icon-button" ui-sref="audits.view({ id:aud._id })">
+                    <md-icon md-svg-icon="eye"></md-icon>
+                    <md-tooltip>Case Detail</md-tooltip>
+                  </md-button>
+                </div>
+                <div ng-if="permissionE">
+                  <md-button class="md-icon-button" ui-sref="audits.update({ id: aud._id })">
+                    <md-icon md-svg-icon="pencil"></md-icon>
+                    <md-tooltip>Edit</md-tooltip>
+                  </md-button>
+                </div>
+                <div ng-if="!permissionE">
+                  <md-button class="md-icon-button" ng-click="requestE(aud._id, aud)">
+                    <md-icon md-svg-icon="pencil"></md-icon>
+                    <md-tooltip>Request Edit</md-tooltip>
+                  </md-button>
+                </div>
+                <md-button class="md-icon-button" ng-click="delete(aud)">
+                  <md-icon md-svg-icon="delete"></md-icon>
+                  <md-tooltip>Delete</md-tooltip>
+                </md-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+
+      <md-table-pagination md-limit="filter.limit" md-limit-options="[20, 50, 100]" md-page="filter.page" md-total="{{auditsCount}}" md-page-select></md-table-pagination>
+    </md-card>
+
+    <div flex=50 ng-if="display.id" ng-include="'/client/modules/audits/views/_details.partial.html'">
+    </div>
+
+
+  <md-card ng-if="!permissionP" flex="100">
+    <center><h1 class="md-display-2">You Don't Have the Required Permission</h1>
+      <md-divider></md-divider>
+      <md-button class="md-primary md-raised" ng-click="requestP()" >
+          Request Permission
+      </md-button>
+  </md-card>
+
+</section>

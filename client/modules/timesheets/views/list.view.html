@@ -1,0 +1,59 @@
+<section ng-init="find()">
+  <div layout="row">
+    <md-button ng-click="toggleTray('projects')">
+      <md-icon md-svg-icon="menu"></md-icon>
+      Projects
+    </md-button>
+    <md-button ng-click="add()">
+      <md-icon md-svg-icon="plus"></md-icon>
+      Add Task
+    </md-button>
+
+    <span flex></span>
+
+    <md-button ng-click="display.sideTasks = 'i'; toggleTray('tasks')">
+      <md-icon md-svg-icon="inbox"></md-icon>
+      Idle
+    </md-button>
+    <md-button ng-click="display.sideTasks = 'f'; toggleTray('tasks')">
+      <md-icon md-svg-icon="checkbox-multiple-marked-circle"></md-icon>
+      Closed
+    </md-button>
+    <md-button ng-click="display.sideTasks = 'x'; toggleTray('tasks')">
+      <md-icon md-svg-icon="delete"></md-icon>
+      Archived
+    </md-button>
+  </div>
+
+  <md-card>
+    <md-table-container>
+      <table md-table>
+        <thead md-head>
+          <tr md-row>
+            <th md-cell ng-repeat="ts in taskStatus" width="{{ 100/taskStatus.length }}%">{{ ts.label }}</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row>
+            <td md-cell style="padding:0" ng-repeat="ts in taskStatus"
+              dnd-list dnd-drop="onDrop(ts.status, item, index)">
+              <md-card ng-repeat="task in tasks | filter:{ status: ts.status }" dnd-draggable="task">
+                <div layout-padding>{{ task.title }}</div>
+                <md-divider></md-divider>
+                <div layout-padding>{{ task.project.title }}</div>
+                <md-divider ng-if="task.assignees"></md-divider>
+                <div ng-if="task.assignees">
+                  <md-button ng-repeat="assignee in task.assignees" class="md-short-button">
+                    <!-- <img ng-src="/images/avatars/{{assignee.id}}.png" style="margin-top:10px; width:30px">
+                    <md-tooltip>{{ assignee.name }}</md-tooltip> -->
+                    <employee id="assignee"></employee>
+                  </md-button>
+                </div>
+              </md-card>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </md-card>
+</section>

@@ -1,0 +1,79 @@
+<table md-table>
+  <thead md-head>
+    <tr md-row>
+      <th md-column width="30%">Details</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody md-body>
+    <tr md-row>
+      <td md-cell>Status</td>
+      <td md-cell ng-style="audit.status === 'c' && {'color': 'green'} || {'color' : 'red'}">{{ audit.status === 'c' ? 'Clear' : 'Not Clear' }}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Date</td>
+      <td md-cell>{{audit.slated | date}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Due Date</td>
+      <td md-cell>{{audit.due | date}}</td>
+    </tr>
+
+    <tr md-row ng-if="!auditType">
+      <td md-cell>Inspector</td>
+      <td md-cell>{{audit.inspector}}</td>
+    </tr>
+
+    <tr md-row ng-if="auditType">
+      <td md-cell>Observer</td>
+      <td md-cell>{{audit.inspector}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Department In Charge</td>
+      <td md-cell>{{audit.dic}}</td>
+    </tr>
+
+    <tr md-row ng-if="!auditType">
+      <td md-cell>Inspected</td>
+      <td md-cell>{{audit.inspected}}</td>
+    </tr>
+
+    <tr md-row ng-if="auditType">
+      <td md-cell>Observed</td>
+      <td md-cell>{{audit.inspected}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Location</td>
+      <td md-cell>{{audit.location}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Findings</td>
+      <td md-cell><p ng-repeat="finding in audit.findings">{{ finding }}<p></td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Findings Description</td>
+      <td md-cell>{{audit.fDesc}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Findings Category</td>
+      <td md-cell>{{audit.fCate}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Action plan</td>
+      <td md-cell>{{audit.action}}</td>
+    </tr>
+
+    <tr md-row>
+      <td md-cell>Photo</td>
+      <td md-cell>{{audit.photo}}</td>
+    </tr>
+  </tbody>
+</table>
